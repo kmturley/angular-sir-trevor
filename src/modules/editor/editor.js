@@ -115,7 +115,7 @@ angular.module('app', [])
                 element.bind('focusout', function (e) {
                     scope.block.content = element.html();
                     window.setTimeout(function () {
-                        if (document.activeElement !== e.target && !e.target.contains(document.activeElement)) {
+                        if (document.activeElement !== e.target && !e.target.parentNode.contains(document.activeElement)) {
                             scope.block.edit = false;
                             scope.$apply();
                         }
