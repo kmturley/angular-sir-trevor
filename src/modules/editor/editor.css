@@ -8,36 +8,49 @@
     width: 100%;
 }
 
-.editor .video {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
+.editor-controls {
+    text-align: center;
 }
- 
-.editor .video iframe,
-.editor .video object,
-.editor .video embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+
+/* buttons */
+
+.editor button {
+    background-color: #333;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+}
+
+.editor button:hover,
+.editor button.on {
+    background-color: #666;
 }
 
 /* blocks */
 
 .editor .block {
-    margin-bottom: 20px;
-    min-height: 100px;
+    margin-bottom: 1rem;
+    min-height: 290px;
     position: relative;
+}
+
+.editor .block.text {
+    margin-bottom: 0;
+    min-height: 0;
 }
 
 .editor .block [contentEditable=true],
 .editor .block input {
     box-sizing: border-box;
+    padding: 0;
+}
+
+.editor .block input {
     padding: 10px;
-    width: 100%;
+    width: 66.6%;
 }
 
 .editor .block [contentEditable=true]:empty:not(:focus):before{
@@ -45,20 +58,24 @@
     color: #aaa;
 }
 
+/* overlay */
+
 .editor .block .controls,
 .editor .block .overlay {
+    color: #fff;
     display: none;
     position: absolute;
-    top: 0;
-}
-
-.editor .block .controls {
-    right: 0;
 }
 
 .editor .block .overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    box-sizing: border-box;
     left: 0;
+    top: 0;
     width: 100%;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
 }
 
 .editor .block.editing .controls,
@@ -68,18 +85,24 @@
 
 /* controls */
 
-.controls {
+.editor .block .controls {
+    right: 0;
+    top: 0;
     text-align: center;
 }
 
+.editor .block .controls button {
+    display: block;
+    min-width: 40px;
+}
 
 /* upload area */
 
 .area {
-    width: 100%;
+    width: 66.66%;
     height: 100px;
-    border: 4px dashed #000;
-    background-image: url("http://kmtlondon.com/img/upload.png");
+    border: 4px dashed #fff;
+    background-image: url("http://www.nor-del.com/images/icons/upload-icon.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: 64px 64px;
@@ -90,6 +113,8 @@
     -khtml-opacity: 0.5;
     -moz-opacity: 0.5;
     opacity: 0.5;
+    overflow: hidden;
+    margin: 20px auto;
     text-align: center;
 }
 
