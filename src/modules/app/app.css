@@ -38,18 +38,21 @@
 .app h5 { font-size: 1.5em; }
 .app h6 { font-size: 1em; }
 
-.app button {
-    background-color: #333;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1.2em;
-    padding: 0 10px 5px 10px;
+.app .wide {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
 }
-
-.app button:hover,
-.app button.on {
-    background-color: #666;
+ 
+.app .wide iframe,
+.app .wide object,
+.app .wide embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .app pre {

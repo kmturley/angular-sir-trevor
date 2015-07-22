@@ -7,101 +7,141 @@
 
 angular.module('app', [])
 
-    .controller('editor', ['$scope', '$templateCache', function ($scope, $templateCache) {
+    .controller('editor', ['$scope', '$templateCache', '$compile', '$http', function ($scope, $templateCache, $compile, $http) {
         'use strict';
 
         // initial data
+        $scope.imageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+        $scope.videoTypes = ['video/avi', 'video/mpeg', 'video/quicktime'];
+        $scope.imageUrls = ['gif', 'jpeg', 'png', 'jpg'];
+        $scope.videoUrls = ['avi', 'mpeg', 'mov', 'mpg', 'mp4'];
         $scope.blocks = [
             { type: 'text', content: '<h1>Angular Sir Trevor</h1><p>AngularJS block-based editor inspired by Sir Trevor JS</p>' },
-            { type: 'image', content: 'http://momsmack.com/wp-content/uploads/2013/09/photography-15a.jpg' }
+            { type: 'image', content: 'http://massimages.mobi/wp-content/uploads/forest-wallpaper-widescreen-hd-photograph-6.jpg' }
         ];
-        
+
         // functions
-        $scope.reset = function () {
-            angular.forEach($scope.blocks, function (value, key) {
-                delete value.edit;
-            });
+        $scope.updateType = function (element, scope) {
+            if (scope.block.type === 'text') {
+                element.removeAttr('tabindex', '0');
+                element.html($templateCache.get(scope.block.type));
+            } else {
+                element.attr('tabindex', '0');
+                element.html($templateCache.get(scope.block.type) + $templateCache.get('overlay'));
+            }
+            $compile(element.contents())(scope);
         };
         
+        $scope.checkBlur = function (el, scope) {
+            window.setTimeout(function () {
+                if (document.activeElement !== el && !el.contains(document.activeElement)) {
+                    scope.block.edit = false;
+                    scope.$apply();
+                }
+            }, 1);
+        };
+
         $scope.add = function (array, element) {
-			array.push(element);
-		};
+            array.push(element);
+        };
 
         $scope.edit = function (array, element) {
             element.edit = !element.edit;
-		};
-        
+        };
+
         $scope.remove = function (array, element) {
-			var index = array.indexOf(element);
-			if (index === -1) {
-				return false;
-			}
-			array.splice(index, 1);
-		};
-        
-		$scope.moveUp = function (array, element) {
-			var index = array.indexOf(element);
-			if (index === -1) {
-				return false;
-			}
-			if (array[index - 1]) {
-				array.splice(index - 1, 2, array[index], array[index - 1]);
-			} else {
-				return 0;
-			}
-		};
-        
-		$scope.moveDown = function (array, element) {
-			var index = array.indexOf(element);
-			if (index === -1) {
-				return false;
-			}
-			if (array[index + 1]) {
-				array.splice(index, 2, array[index + 1], array[index]);
-			} else {
-				return 0;
-			}
-		};
-        
-        $scope.upload = function (element) {
+            var index = array.indexOf(element);
+            if (index === -1) {
+                return false;
+            }
+            array.splice(index, 1);
+        };
+
+        $scope.moveUp = function (array, element) {
+            var index = array.indexOf(element);
+            if (index === -1) {
+                return false;
+            }
+            if (array[index - 1]) {
+                array.splice(index - 1, 2, array[index], array[index - 1]);
+            } else {
+                return 0;
+            }
+        };
+
+        $scope.moveDown = function (array, element) {
+            var index = array.indexOf(element);
+            if (index === -1) {
+                return false;
+            }
+            if (array[index + 1]) {
+                array.splice(index, 2, array[index + 1], array[index]);
+            } else {
+                return 0;
+            }
+        };
+
+        $scope.upload = function (element, scope) {
             var me = this,
-                file = element.files[0],
-                name = file.name.replace(/\.[^/.]+$/, '');
-        
-            if (file.type === '' ||
-                    file.type === 'image/png' ||
-                    file.type === 'image/jpeg' ||
-                    file.type === 'image/jpg' ||
-                    file.type === 'video/mp4' ||
-                    file.type === 'video/mpg' ||
-                    file.type === 'video/mpeg') {
-                if (file.size < (3000 * 1024)) {
+                maxsize = 20,
+                file = element[0].files[0],
+                name = file.name.replace(/\.[^/.]+$/, ''),
+                valid = false;
+
+            if ($scope.imageTypes.indexOf(file.type) > -1) {
+                valid = true;
+                scope.block.type = 'image';
+            } else if ($scope.videoTypes.indexOf(file.type) > -1) {
+                valid = true;
+                scope.block.type = 'video';
+            }
+            scope.updateType(element.parent().parent().parent(), scope);
+
+            if (valid) {
+                if (file.size < (maxsize * 1000 * 1024)) {
                     window.alert('upload here: ' + name);
                 } else {
-                    window.alert('File size is too large, please ensure you are uploading a file of less than 3MB');
+                    window.alert('File size is too large, please ensure you are uploading a file of less than ' + maxsize + 'MB');
                 }
             } else {
                 window.alert('File type ' + file.type + ' not supported');
             }
         };
+
+        $scope.checkUrl = function (element, scope) {
+            var ext = scope.block.content.split('.').pop();
+            console.log('checkUrl', ext, scope.block.content);
+            if ($scope.imageUrls.indexOf(ext) > -1) {
+                scope.block.type = 'image';
+            } else if ($scope.videoUrls.indexOf(ext) > -1) {
+                scope.block.type = 'video';
+            } else if (scope.block.content.indexOf('youtube.com') > -1) {
+                scope.block.content = scope.block.content.replace('watch?v=', 'embed/');
+                scope.block.type = 'video';
+            }
+            console.log('asdas', element, scope);
+            scope.updateType(element.parent().parent(), scope);
+        };
+        
+        $scope.save = function (data) {
+            console.log('save', data);
+            $http.post('/someUrl', data).success(function (data, status, headers, config) {
+                window.alert('save success');
+            }).error(function (data, status, headers, config) {
+                window.alert('save error');
+            });
+        };
     }])
 
     .directive('block', ['$window', '$compile', '$templateCache', function ($window, $compile, $templateCache) {
         'use strict';
-        
+
         return {
             restrict: 'A',
             link: function (scope, element, attr, ctrl) {
-                element.html($templateCache.get(scope.block.type) + $templateCache.get('edit'));
-                $compile(element.contents())(scope);
-
+                scope.updateType(element, scope);
                 element.bind('blur', function (e) {
-                    window.setTimeout(function () {
-                        if (document.activeElement !== e.target && !e.target.contains(document.activeElement)) {
-                            scope.block.edit = false;
-                            scope.$apply();
-                        }
-                    }, 1);
+                    scope.checkBlur(e.target, scope);
                 });
             }
         };
@@ -114,12 +154,7 @@ angular.module('app', [])
             link: function (scope, element, attr, ctrl) {
                 element.bind('focusout', function (e) {
                     scope.block.content = element.html();
-                    window.setTimeout(function () {
-                        if (document.activeElement !== e.target && !e.target.parentNode.contains(document.activeElement)) {
-                            scope.block.edit = false;
-                            scope.$apply();
-                        }
-                    }, 1);
+                    scope.checkBlur(e.target.parentNode, scope);
                 });
                 element.html(scope.block.content);
             }
@@ -153,17 +188,29 @@ angular.module('app', [])
                 element.bind('dragenter', function (e) {
                     element.parent().addClass('dragging');
                 });
-                
+
                 element.bind('dragleave', function (e) {
                     element.parent().removeClass('dragging');
                 });
-                
+
                 element.bind('dragdrop', function (e) {
-                    scope.upload(element[0]);
+                    scope.upload(element, scope);
                 });
-                
+
                 element.bind('change', function (e) {
-                    scope.upload(element[0]);
+                    scope.upload(element, scope);
+                });
+            }
+        };
+    }])
+
+    .directive('paste', ['$window', '$compile', function ($window, $compile) {
+        'use strict';
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr, ctrl) {
+                element.bind('blur', function (e) {
+                    scope.checkUrl(element, scope);
                 });
             }
         };
