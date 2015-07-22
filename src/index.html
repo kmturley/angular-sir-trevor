@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <title>Angular Sir Trevor</title>
+    <meta name="description" content="" />
+    <meta name=viewport content="width=device-width,initial-scale=1" />
+    <!-- build:css -->
+    <link rel="stylesheet" href="modules/app/app.css" />
+    <link rel="stylesheet" href="modules/editor/editor.css" />
+    <!-- endbuild -->
+</head>
+<body class="app">
+    <div class="editor" ng-controller="editor">
+        <div block class="block" ng-repeat="block in blocks" ng-class="{ 'editing': block.edit }" tabindex="0" ng-click="block.edit=true"></div>
+        <div class="controls">
+            <button ng-click="add(blocks, { type: 'text', content: '', edit: 'true' })">+ text</button>
+            <button ng-click="add(blocks, { type: 'image', content: 'http://www.thisiscolossal.com/wp-content/uploads/2012/11/lukas-4.jpg', edit: 'true' })">+ image</button>
+            <button ng-click="add(blocks, { type: 'video', content: 'https://www.youtube.com/embed/25b0Psd0uro', edit: 'true' })">+ video</button>
+        </div>
+        <pre>{{ blocks|json }}</pre>
+    </div>
+    <script type="text/ng-template" id="edit">
+        <div class="controls">
+            <button ng-click="moveUp(blocks, block)">▲</button>
+            <button ng-click="moveDown(blocks, block)">▼</button>
+            <button ng-click="remove(blocks, block)">✕</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="text">
+        <div text contenteditable="true">{{ block.content }}</div>
+    </script>
+    <script type="text/ng-template" id="image">
+        <img image ng-src="{{ block.content }}" alt="" />
+        <div class="overlay">
+            <input type="text" ng-model="block.content" />
+            <div class="area"><input upload type="file" /></div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="video">
+        <div class="video"><iframe video content="{{ block.content }}" frameborder="0" allowfullscreen></iframe></div>
+        <div class="overlay">
+            <input type="text" ng-model="block.content" />
+            <div class="area"><input upload type="file" /></div>
+        </div>
+    </script>
+    
+    <script src="libs/angular/angular.js"></script>
+    <!-- build:js -->
+    <script src="modules/app/app.js"></script>
+    <script src="modules/editor/editor.js"></script>
+    <!-- endbuild -->
+</body>
+</html>
