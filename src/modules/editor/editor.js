@@ -38,7 +38,7 @@ angular.module('app', [])
                     scope.block.edit = false;
                     scope.$apply();
                 }
-            }, 1);
+            }, 120); // for some reason Safari needs this delay?
         };
 
         $scope.add = function (array, element) {
@@ -106,7 +106,6 @@ angular.module('app', [])
 
         $scope.checkUrl = function (element, scope) {
             var ext = scope.block.content.split('.').pop();
-            console.log('checkUrl', ext, scope.block.content);
             if ($scope.imageUrls.indexOf(ext) > -1) {
                 scope.block.type = 'image';
             } else if ($scope.videoUrls.indexOf(ext) > -1) {
@@ -146,7 +145,7 @@ angular.module('app', [])
         return {
             restrict: 'A',
             link: function (scope, element, attr, ctrl) {
-                element.bind('focusout', function (e) {
+                element.bind('blur', function (e) {
                     scope.block.content = element.html();
                     scope.checkBlur(e.target.parentNode, scope);
                 });
