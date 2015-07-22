@@ -45,10 +45,6 @@ angular.module('app', [])
             array.push(element);
         };
 
-        $scope.edit = function (array, element) {
-            element.edit = !element.edit;
-        };
-
         $scope.remove = function (array, element) {
             var index = array.indexOf(element);
             if (index === -1) {
@@ -119,7 +115,6 @@ angular.module('app', [])
                 scope.block.content = scope.block.content.replace('watch?v=', 'embed/');
                 scope.block.type = 'video';
             }
-            console.log('asdas', element, scope);
             scope.updateType(element.parent().parent(), scope);
         };
         
@@ -135,7 +130,6 @@ angular.module('app', [])
 
     .directive('block', ['$window', '$compile', '$templateCache', function ($window, $compile, $templateCache) {
         'use strict';
-
         return {
             restrict: 'A',
             link: function (scope, element, attr, ctrl) {
