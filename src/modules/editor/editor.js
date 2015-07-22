@@ -7,7 +7,7 @@
 
 angular.module('app', [])
 
-    .controller('editor', ['$scope', '$templateCache', '$compile', function ($scope, $templateCache, $compile) {
+    .controller('editor', ['$scope', '$templateCache', '$compile', '$http', function ($scope, $templateCache, $compile, $http) {
         'use strict';
 
         // initial data
@@ -121,6 +121,15 @@ angular.module('app', [])
             }
             console.log('asdas', element, scope);
             scope.updateType(element.parent().parent(), scope);
+        };
+        
+        $scope.save = function (data) {
+            console.log('save', data);
+            $http.post('/someUrl', data).success(function (data, status, headers, config) {
+                window.alert('save success');
+            }).error(function (data, status, headers, config) {
+                window.alert('save error');
+            });
         };
     }])
 

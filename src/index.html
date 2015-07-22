@@ -14,8 +14,13 @@
     <div class="editor" ng-controller="editor">
         <div block class="block {{ block.type }}" ng-repeat="block in blocks" ng-class="{ 'editing': block.edit }" ng-click="block.edit=true"></div>
         <div class="editor-controls">
-            <button ng-click="add(blocks, { type: 'text', content: '<h4>Subtitle</h4><p>Paragraph example copy.</p>', edit: 'true' })">+ text</button>
-            <button ng-click="add(blocks, { type: 'image', content: 'http://www.thisiscolossal.com/wp-content/uploads/2012/11/lukas-4.jpg', edit: 'true' })">+ media</button>
+            <button ng-click="add(blocks, { type: 'text', content: '<h4>Subtitle</h4><p>Paragraph example copy.</p>', edit: 'true' })">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="30" height="30" viewBox="0 0 470.586 470.586" style="enable-background:new 0 0 470.586 470.586;" xml:space="preserve"><g><path d="M327.081 0H90.234C74.331 0 61.4 13 61.4 28.859v412.863c0 15.9 12.9 28.9 28.9 28.863H380.35 c15.917 0 28.855-12.939 28.855-28.863V89.234L327.081 0z M333.891 43.184l35.996 39.121h-35.996V43.184z M384.972 441.7 c0 2.542-2.081 4.629-4.635 4.629H90.234c-2.55 0-4.619-2.087-4.619-4.629V28.859c0-2.548 2.069-4.613 4.619-4.613h219.411v70.181 c0 6.7 5.4 12.1 12.1 12.099h63.198V441.723z M128.364 128.89H334.15c5.013 0 9.1 4.1 9.1 9.1 c0 5.013-4.066 9.079-9.079 9.079H128.364c-5.012 0-9.079-4.066-9.079-9.079C119.285 133 123.4 128.9 128.4 128.89z M343.229 198.98c0 5.012-4.066 9.079-9.079 9.079H128.364c-5.012 0-9.079-4.066-9.079-9.079s4.067-9.079 9.079-9.079H334.15 C339.163 189.9 343.2 194 343.2 198.98z M343.229 257.993c0 5.013-4.066 9.079-9.079 9.079H128.364 c-5.012 0-9.079-4.066-9.079-9.079s4.067-9.079 9.079-9.079H334.15C339.163 248.9 343.2 253 343.2 257.993z M343.229 318.011c0 5.013-4.066 9.079-9.079 9.079H128.364c-5.012 0-9.079-4.066-9.079-9.079s4.067-9.079 9.079-9.079H334.15 C339.163 308.9 343.2 313 343.2 318.011z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+            </button>
+            <button ng-click="add(blocks, { type: 'image', content: 'http://www.thisiscolossal.com/wp-content/uploads/2012/11/lukas-4.jpg', edit: 'true' })">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="30" height="30" viewBox="0 0 533.333 533.333" style="enable-background:new 0 0 533.333 533.333;" xml:space="preserve"><g><path d="M158.333 300c0 59.8 48.5 108.3 108.3 108.333S375 359.8 375 300s-48.502-108.333-108.333-108.333 S158.333 240.2 158.3 300z M500 116.667H383.333C375 83.3 366.7 50 333.3 50H200c-33.333 0-41.667 33.333-50 66.7 H33.333C15 116.7 0 131.7 0 150v300c0 18.3 15 33.3 33.3 33.333H500c18.333 0 33.334-15 33.334-33.333V150 C533.333 131.7 518.3 116.7 500 116.667z M266.667 447.917c-81.692 0-147.917-66.224-147.917-147.917 c0-81.692 66.224-147.917 147.917-147.917c81.693 0 147.9 66.2 147.9 147.9 C414.583 381.7 348.4 447.9 266.7 447.917z M500 216.667h-66.666v-33.333H500V216.667z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+            </button>
+            <button class="save" ng-click="save(blocks)">SAVE</button>
         </div>
         <pre>{{ blocks|json }}</pre>
     </div>
@@ -46,7 +51,7 @@
     <script type="text/ng-template" id="video">
         <div class="wide"><iframe video content="{{ block.content }}" frameborder="0" allowfullscreen></iframe></div>
     </script>
-    <script src="libs/angular/angular.js"></script>
+    <script src="libs/angular/angular.min.js"></script>
     <!-- build:js -->
     <script src="modules/app/app.js"></script>
     <script src="modules/editor/editor.js"></script>
