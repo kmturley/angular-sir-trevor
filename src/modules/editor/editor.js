@@ -15,59 +15,59 @@ angular.module('app', [])
             { type: 'text', content: '<h1>Angular Sir Trevor</h1><p>AngularJS block-based editor inspired by Sir Trevor JS</p>' },
             { type: 'image', content: 'http://momsmack.com/wp-content/uploads/2013/09/photography-15a.jpg' }
         ];
-        
+
         // functions
         $scope.reset = function () {
             angular.forEach($scope.blocks, function (value, key) {
                 delete value.edit;
             });
         };
-        
+
         $scope.add = function (array, element) {
-			array.push(element);
-		};
+            array.push(element);
+        };
 
         $scope.edit = function (array, element) {
             element.edit = !element.edit;
-		};
-        
+        };
+
         $scope.remove = function (array, element) {
-			var index = array.indexOf(element);
-			if (index === -1) {
-				return false;
-			}
-			array.splice(index, 1);
-		};
-        
-		$scope.moveUp = function (array, element) {
-			var index = array.indexOf(element);
-			if (index === -1) {
-				return false;
-			}
-			if (array[index - 1]) {
-				array.splice(index - 1, 2, array[index], array[index - 1]);
-			} else {
-				return 0;
-			}
-		};
-        
-		$scope.moveDown = function (array, element) {
-			var index = array.indexOf(element);
-			if (index === -1) {
-				return false;
-			}
-			if (array[index + 1]) {
-				array.splice(index, 2, array[index + 1], array[index]);
-			} else {
-				return 0;
-			}
-		};
-        
+            var index = array.indexOf(element);
+            if (index === -1) {
+                return false;
+            }
+            array.splice(index, 1);
+        };
+
+        $scope.moveUp = function (array, element) {
+            var index = array.indexOf(element);
+            if (index === -1) {
+                return false;
+            }
+            if (array[index - 1]) {
+                array.splice(index - 1, 2, array[index], array[index - 1]);
+            } else {
+                return 0;
+            }
+        };
+
+        $scope.moveDown = function (array, element) {
+            var index = array.indexOf(element);
+            if (index === -1) {
+                return false;
+            }
+            if (array[index + 1]) {
+                array.splice(index, 2, array[index + 1], array[index]);
+            } else {
+                return 0;
+            }
+        };
+
         $scope.upload = function (element) {
             var me = this,
                 file = element.files[0],
                 name = file.name.replace(/\.[^/.]+$/, '');
-        
+
             if (file.type === '' ||
                     file.type === 'image/png' ||
                     file.type === 'image/jpeg' ||
@@ -88,7 +88,7 @@ angular.module('app', [])
 
     .directive('block', ['$window', '$compile', '$templateCache', function ($window, $compile, $templateCache) {
         'use strict';
-        
+
         return {
             restrict: 'A',
             link: function (scope, element, attr, ctrl) {
@@ -153,15 +153,15 @@ angular.module('app', [])
                 element.bind('dragenter', function (e) {
                     element.parent().addClass('dragging');
                 });
-                
+
                 element.bind('dragleave', function (e) {
                     element.parent().removeClass('dragging');
                 });
-                
+
                 element.bind('dragdrop', function (e) {
                     scope.upload(element[0]);
                 });
-                
+
                 element.bind('change', function (e) {
                     scope.upload(element[0]);
                 });
