@@ -17,7 +17,7 @@ angular.module('app', [])
         $scope.videoUrls = ['avi', 'mpeg', 'mov', 'mpg', 'mp4'];
         $scope.blocks = [
             { type: 'text', content: '<h1>Angular Sir Trevor</h1><p>AngularJS block-based editor inspired by Sir Trevor JS</p>' },
-            { type: 'image', content: 'http://massimages.mobi/wp-content/uploads/forest-wallpaper-widescreen-hd-photograph-6.jpg' }
+            { type: 'image', content: 'http://img08.deviantart.net/cb77/i/2012/122/1/a/landscape_wallpaper_by_nickchoubg-d4yaep3.png' }
         ];
 
         // functions
