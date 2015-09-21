@@ -23,6 +23,10 @@ The following packages will be installed:
 * gulp-minify-css - minify css code
 * gulp-uglify - minify js code
 
+When using with the Ionic framework, add overflow-scroll ion-content to support html editing:
+
+    <ion-content overflow-scroll="true">
+
 ## Usage
 
 To run the server type the command below and then point your browser to http://localhost:8080/src/
