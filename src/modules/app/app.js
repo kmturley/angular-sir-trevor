@@ -5,4 +5,4 @@
 
 /*globals window, angular*/
 
-angular.module('app', [])
+angular.module('app', ['app.editor'])

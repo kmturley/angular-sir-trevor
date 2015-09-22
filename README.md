@@ -26,6 +26,10 @@ The following packages will be installed:
 When using with the Ionic framework, add overflow-scroll ion-content to support html editing:
 
     <ion-content overflow-scroll="true">
+    
+Added an ionic example at:
+
+    /ionic-src/www/
 
 ## Usage
 

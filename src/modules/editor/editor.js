@@ -5,7 +5,7 @@
 
 /*globals window, angular*/
 
-angular.module('app', [])
+angular.module('app.editor', [])
 
     .controller('editor', ['$scope', '$templateCache', '$compile', '$http', function ($scope, $templateCache, $compile, $http) {
         'use strict';
